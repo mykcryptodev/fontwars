@@ -10,35 +10,39 @@
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "fontWars.updateNow",
+        "title": "FontWars: Update Font Now"
+      }
+    ],
     "configuration": {
       "title": "FontWars",
       "properties": {
         "fontWars.walletAddress": {
           "type": "string",
           "default": "",
-          "description": "Wallet address to monitor"
+          "description": "Your wallet address for FontWars"
         },
         "fontWars.updateInterval": {
           "type": "number",
-          "default": 3600,
-          "description": "Update interval in seconds"
+          "default": 60,
+          "description": "How often to update the font (in seconds)"
         }
       }
-    },
-    "commands": [{
-      "command": "fontWars.updateNow",
-      "title": "FontWars: Update Font Now"
-    }]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "compile": "node ./esbuild.js",
+    "watch": "node ./esbuild.js --watch"
   },
   "devDependencies": {
     "@types/vscode": "^1.60.0",
     "@types/node": "^16.11.7",
     "typescript": "^4.5.5",
-    "axios": "^0.24.0"
+    "axios": "^0.24.0",
+    "esbuild": "^0.20.0",
+    "undici": "^6.0.0"
   }
 }

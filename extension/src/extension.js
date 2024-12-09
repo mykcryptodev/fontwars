@@ -32,47 +32,25 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
-const axios_1 = __importDefault(require("axios"));
 function activate(context) {
     console.log('FontWars is now active!');
-    let updateFontTimer; // Changed from Timer to Timeout
-    async function getTokenValues(address) {
-        try {
-            // Note: You'll need to replace these with the actual token contract addresses
-            const COMIC_CONTRACT = "0x..."; // Comic Sans token contract
-            const HEL_CONTRACT = "0x..."; // Helvetica token contract
-            // Get token balances (using example endpoints - replace with actual API endpoints)
-            const comicBalance = await getTokenBalance(address, COMIC_CONTRACT);
-            const helBalance = await getTokenBalance(address, HEL_CONTRACT);
-            // Get token prices (replace with actual token price API endpoints)
-            const comicPrice = await getTokenPrice('comic-token');
-            const helPrice = await getTokenPrice('helvetica-token');
-            return {
-                comic: comicBalance * comicPrice,
-                helvetica: helBalance * helPrice
-            };
-        }
-        catch (error) {
-            console.error('Error fetching token values:', error);
-            return { comic: 0, helvetica: 0 };
-        }
+    let updateFontTimer;
+    function fontNameToFontFamily(fontName) {
+        // comicsans -> Comic Sans MS
+        // helvetica -> Helvetica
+        return fontName.replace(/s/g, ' ').replace(/([a-z])([A-Z])/g, '$1-$2').toUpperCase();
     }
-    async function getTokenBalance(address, tokenContract) {
-        // Replace with actual token balance fetching logic
-        const response = await axios_1.default.get(`https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${tokenContract}&address=${address}&tag=latest`);
-        return parseInt(response.data.result) / 1e18;
-    }
-    async function getTokenPrice(tokenId) {
-        // Replace with actual price API endpoint
-        const response = await axios_1.default.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-        return response.data[tokenId].usd;
+    async function getFontWarsValue(walletAddress) {
+        // make a POST request to https://fontwars.vercel.app/api/balances and pass the wallet address in the body
+        const response = await fetch('https://fontwars.vercel.app/api/balances', {
+            method: 'POST',
+            body: JSON.stringify({ walletAddress }),
+        });
+        return await response.json();
     }
     async function updateFont() {
         const config = vscode.workspace.getConfiguration('fontWars');
@@ -81,11 +59,10 @@ function activate(context) {
             vscode.window.showWarningMessage('FontWars: Please configure a wallet address in settings.');
             return;
         }
-        const holdings = await getTokenValues(walletAddress);
-        const newFont = holdings.comic > holdings.helvetica ? 'Comic Sans MS' : 'Helvetica';
+        const fontWarsValue = await getFontWarsValue(walletAddress);
         // Update editor font
-        await vscode.workspace.getConfiguration('editor').update('fontFamily', newFont, true);
-        vscode.window.showInformationMessage(`FontWars: $COMIC: $${holdings.comic.toFixed(2)} vs $HEL: $${holdings.helvetica.toFixed(2)} - Using ${newFont}`);
+        await vscode.workspace.getConfiguration('editor').update('fontFamily', fontNameToFontFamily(fontWarsValue.dominantToken), true);
+        vscode.window.showInformationMessage(`FontWars: $COMICSANS: $${fontWarsValue.values.comicsans.toFixed(2)} vs $HELVETICA: $${fontWarsValue.values.helvetica.toFixed(2)} - Using ${fontNameToFontFamily(fontWarsValue.dominantToken)}`);
     }
     // Initial update
     updateFont();
