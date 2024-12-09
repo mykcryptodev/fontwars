@@ -13,6 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('FontWars is now active!');
 
     let updateFontTimer: NodeJS.Timeout;
+    let isEnabled = true;
 
     function fontNameToFontFamily(fontName: string): string {
         const fontMap: Record<string, string> = {
@@ -32,6 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     async function updateFont() {
+        if (!isEnabled) return;
         const config = vscode.workspace.getConfiguration('fontWars');
         const walletAddress = config.get<string>('walletAddress');
         
@@ -63,6 +65,27 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Register command to force update
     let disposable = vscode.commands.registerCommand('fontWars.updateNow', updateFont);
+    context.subscriptions.push(disposable);
+
+    // Register command to reset font
+    disposable = vscode.commands.registerCommand('fontWars.resetFont', async () => {
+        await vscode.workspace.getConfiguration('editor').update('fontFamily', undefined, true);
+        vscode.window.showInformationMessage('FontWars: Font reset to default');
+    });
+    context.subscriptions.push(disposable);
+
+    // Register command to toggle extension
+    disposable = vscode.commands.registerCommand('fontWars.toggleEnabled', async () => {
+        isEnabled = !isEnabled;
+        if (!isEnabled) {
+            clearInterval(updateFontTimer);
+            vscode.window.showInformationMessage('FontWars: Extension disabled');
+        } else {
+            updateFont();
+            updateFontTimer = setInterval(updateFont, interval);
+            vscode.window.showInformationMessage('FontWars: Extension enabled');
+        }
+    });
     context.subscriptions.push(disposable);
 
     // Clean up timer on deactivation

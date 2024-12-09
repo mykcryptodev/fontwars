@@ -1,11 +1,12 @@
 {
   "name": "font-wars",
   "displayName": "FontWars",
-  "description": "Changes editor font based on $COMIC vs $HEL holdings",
+  "description": "Changes editor font based on font token holdings",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.60.0"
   },
+  "publisher": "mykdoteth",
   "categories": ["Other"],
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
@@ -14,6 +15,14 @@
       {
         "command": "fontWars.updateNow",
         "title": "FontWars: Update Font Now"
+      },
+      {
+        "command": "fontWars.resetFont",
+        "title": "FontWars: Reset Font to Default"
+      },
+      {
+        "command": "fontWars.toggleEnabled",
+        "title": "FontWars: Toggle Extension On/Off"
       }
     ],
     "configuration": {
@@ -22,7 +31,7 @@
         "fontWars.walletAddress": {
           "type": "string",
           "default": "",
-          "description": "Your wallet address for FontWars"
+          "description": "Your wallet address"
         }
       }
     }
