@@ -1,71 +1,34 @@
-# fontwars README
+# FontWars VS Code Extension
 
-This is the README for your extension "fontwars". After writing up a brief description, we recommend including the following sections.
+FontWars is a playful VS Code extension that changes your editor font based on your font token holdings. It automatically switches between Comic Sans MS and Helvetica depending on which token ($COMIC or $HEL) has the higher value in your wallet.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Automatically updates your editor font based on your font token holdings
+- Updates every 60 seconds to stay in sync with token values
+- Easy to toggle on/off
+- Ability to reset to your default font
 
-For example if there is an image subfolder under your extension project workspace:
+## Commands
 
-\!\[feature X\]\(images/feature-x.png\)
+FontWars provides the following commands (accessible via Command Palette - `Ctrl+Shift+P` or `Cmd+Shift+P`):
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- `FontWars: Update Font Now` - Force an immediate font update
+- `FontWars: Reset Font to Default` - Reset to your default editor font
+- `FontWars: Toggle Extension On/Off` - Enable or disable automatic font updates
+
+## Setup
+
+1. Install the extension
+2. Open VS Code settings
+3. Find "FontWars" settings
+4. Add your wallet address
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- VS Code 1.60.0 or higher
+- Comic Sans MS and Helvetica fonts installed on your system
 
-## Extension Settings
+## Note
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This extension is part of the FontWars ecosystem. For more information about font tokens, visit [fontwars.lol](https://fontwars.lol).
