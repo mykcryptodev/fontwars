@@ -39,7 +39,7 @@ async function getTokenPrices() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${process.env.ZAPPER_API_KEY}`,
+            'Authorization': `Basic ${Buffer.from(process.env.ZAPPER_API_KEY!).toString('base64')}`,
         },
         body: JSON.stringify({
             query,
@@ -110,8 +110,8 @@ export async function POST(request: NextRequest) {
         const balances = await getTokenBalances(walletAddress);
         
         // Calculate total fiat value for each token
-        const helveticaValue = balances.helvetica.balance * balances.helvetica.price;
-        const comicsansValue = balances.comicsans.balance * balances.comicsans.price;
+        const helveticaValue = balances.helvetica.value;
+        const comicsansValue = balances.comicsans.value;
 
         // Determine which token has more fiat value
         const dominantToken = helveticaValue > comicsansValue ? 'helvetica' : 'comicsans';
