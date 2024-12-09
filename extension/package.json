@@ -23,11 +23,6 @@
           "type": "string",
           "default": "",
           "description": "Your wallet address for FontWars"
-        },
-        "fontWars.updateInterval": {
-          "type": "number",
-          "default": 60,
-          "description": "How often to update the font (in seconds)"
         }
       }
     }
