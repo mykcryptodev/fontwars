@@ -1,6 +1,7 @@
 import FontSetter from '~/components/FontSetter';
 // import FontwarsHoldings from '~/components/FontwarsHoldings';
 import Header from '~/components/Header';
+import Profile from '~/components/Profile';
 import Swap from '~/components/Swap';
 import TokenCard from '~/components/TokenCard'
 import { TokenData } from '~/types/token';
@@ -55,6 +56,8 @@ export default async function Home() {
   
   helveticaData.imageUrl = "https://fontcoins.com/helvetica.webp"
 
+  console.log({ comicData, helveticaData })
+
   // Calculate percentages
   // const totalSupply = fontWarsBalances.values.comicsans + fontWarsBalances.values.helvetica;
   // const comicPercentage = (fontWarsBalances.values.comicsans / totalSupply) * 100;
@@ -81,6 +84,24 @@ export default async function Home() {
             from={isFontWarsWinningToken === comicData ? comicData : helveticaData}
             to={isFontWarsWinningToken === comicData ? helveticaData : comicData}
           />
+        </div>
+
+        {/* Top Holders */}
+        <div className="w-full max-w-screen-md mx-auto">
+          <div className="grid grid-cols-2 gap-6 mb-4">
+            <h2 className="text-2xl font-bold">Comic Sans Top Holders</h2>
+            <h2 className="text-2xl font-bold">Helvetica Top Holders</h2>
+          </div>
+          
+          {/* Map holders in pairs to ensure they stay aligned */}
+          {comicData.holders.top.map((holder, index) => (
+            <div key={holder.address} className="grid grid-cols-2 gap-6 mb-6">
+              <Profile address={holder.address} />
+              {helveticaData.holders.top[index] && (
+                <Profile address={helveticaData.holders.top[index].address} />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </main>

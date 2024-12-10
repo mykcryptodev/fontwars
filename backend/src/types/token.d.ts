@@ -1,5 +1,5 @@
 export type TokenData = {
-  address: string;
+  contractAddress: string;
   symbol: string;
   name: string;
   price: {
@@ -12,6 +12,13 @@ export type TokenData = {
   holders: {
     count: number;
     name: string;
+    top: {
+      address: string;
+      balance: string;
+      share: string;
+      valueUSD: string;
+    }[];
   };
   imageUrl: string;
+  decimals: number;
 }

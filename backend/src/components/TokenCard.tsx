@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { TokenData } from "~/types/token";
+import Profile from "./Profile";
 
 type TokenCardProps = TokenData;
 
@@ -16,7 +17,7 @@ export default function TokenCard({
     <div className="w-[400px] p-6 border-2 border-black rounded-[20px]">
       {/* Token Header */}
       <div className="flex items-start gap-4 mb-6">
-        <Image src={imageUrl} alt={name} width={48} height={48} className="mb-6" />
+        <Image src={imageUrl} alt={name} width={48} height={48} className="rounded-lg" />
         <div>
           <h2 className="text-xl">${symbol}</h2>
           <p className="text-gray-500">{name}</p>
@@ -50,6 +51,7 @@ export default function TokenCard({
           <p className="text-xl">{holders.count.toLocaleString()}</p>
         </div>
       </div>
+
     </div>
   )
 } 

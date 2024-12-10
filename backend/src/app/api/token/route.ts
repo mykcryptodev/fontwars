@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
             marketCap
             totalLiquidity
           }
-          holders(first: 10) {
+          holders(first: 10, orderBy: VALUE_DESC) {
             totalCount
             edges {
               node {
@@ -94,11 +94,12 @@ export async function GET(request: NextRequest) {
     const holdersCount = fungibleToken.holders?.totalCount || 0;
     const marketCap = fungibleToken.onchainMarketData?.marketCap || 0;
 
-    // Format top holders data
+    // Format top holders data with more details
     const topHolders = fungibleToken.holders.edges.map((edge: any) => ({
       address: edge.node.holderAddress,
-      balance: edge.node.value,
-      share: edge.node.percentileShare.toFixed(2) + '%'
+      balance: Number(edge.node.value).toLocaleString(),
+      share: edge.node.percentileShare.toFixed(2) + '%',
+      valueUSD: (edge.node.value * price).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     }));
 
     const tokenData = {

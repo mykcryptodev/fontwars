@@ -11,18 +11,18 @@ interface SwapProps {
 
 export default function Swap({ from, to }: SwapProps) {
   const fromToken: Token = {
-    address: from.address,
+    address: from.contractAddress,
     chainId: 8453,
-    decimals: 18,
+    decimals: from.decimals,
     image: from.imageUrl,
     name: from.name,
     symbol: from.symbol,
   }
 
   const toToken: Token = {
-    address: to.address,
+    address: to.contractAddress,
     chainId: 8453,
-    decimals: 18,
+    decimals: to.decimals,
     image: to.imageUrl,
     name: to.name,
     symbol: to.symbol,
