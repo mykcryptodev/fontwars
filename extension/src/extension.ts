@@ -60,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
     updateFont();
 
     // Set up timer for periodic updates
-    const interval = 60 * 1000; // 60 seconds
+    const interval = 30 * 60 * 1000; // 30 minutes
     updateFontTimer = setInterval(updateFont, interval);
 
     // Register command to force update
