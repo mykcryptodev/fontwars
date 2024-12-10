@@ -11,12 +11,18 @@ const HELVETICA = "0x03e1ffbe7dd1e1ba6653ba6568ad6db7c91ca2de"
 const COMIC = "0x00ef6220b7e28e890a5a265d82589e072564cc57"
 
 async function getTokenData(address: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/token?address=${address}`, {
+  // Use relative URL in production, absolute URL in development
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? '' // Use relative path in production
+    : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    
+  const response = await fetch(`${baseUrl}/api/token?address=${address}`, {
     method: 'GET',
     next: { revalidate: 60 } // Revalidate every 60 seconds
   });
   
   if (!response.ok) {
+    console.error(`Failed to fetch token data: Status ${response.status}`);
     throw new Error(`Failed to fetch token data for ${address}`);
   }
   
@@ -24,7 +30,11 @@ async function getTokenData(address: string) {
 }
 
 async function getBalances() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/balances`, {
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? '' 
+    : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+  const response = await fetch(`${baseUrl}/api/balances`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -32,7 +42,7 @@ async function getBalances() {
     body: JSON.stringify({
       walletAddress: "0x653Ff253b0c7C1cc52f484e891b71f9f1F010Bfb"
     }),
-    next: { revalidate: 60 } // Revalidate every 60 seconds
+    next: { revalidate: 60 }
   });
 
   return response.json() as Promise<{
