@@ -8,9 +8,7 @@ function getPriceComponents(price: number) {
   let fraction = 0;
 
   if (decimal) {
-    // Count leading zeros
     decimals = decimal.match(/^0*/)?.[0].length || 0;
-    // Get first non-zero numbers
     fraction = parseInt(decimal.replace(/^0*/, '').slice(0, 4));
   }
 
@@ -32,6 +30,14 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  if (!process.env.ZAPPER_API_KEY) {
+    console.error('ZAPPER_API_KEY is not configured');
+    return NextResponse.json(
+      { error: 'API configuration error' },
+      { status: 500 }
+    );
+  }
+
   try {
     const query = `
       query getTokenData($address: Address!) {
@@ -45,8 +51,15 @@ export async function GET(request: NextRequest) {
             marketCap
             totalLiquidity
           }
-          holders(first: 1) {
+          holders(first: 10) {
             totalCount
+            edges {
+              node {
+                holderAddress
+                value
+                percentileShare
+              }
+            }
           }
         }
       }
@@ -76,11 +89,17 @@ export async function GET(request: NextRequest) {
     }
 
     const { fungibleToken } = json.data;
-    console.log("fungible", fungibleToken)
     const price = fungibleToken.onchainMarketData?.price || 0;
     const volume = fungibleToken.onchainMarketData?.totalLiquidity || 0;
     const holdersCount = fungibleToken.holders?.totalCount || 0;
     const marketCap = fungibleToken.onchainMarketData?.marketCap || 0;
+
+    // Format top holders data
+    const topHolders = fungibleToken.holders.edges.map((edge: any) => ({
+      address: edge.node.holderAddress,
+      balance: edge.node.value,
+      share: edge.node.percentileShare.toFixed(2) + '%'
+    }));
 
     const tokenData = {
       contractAddress: address,
@@ -92,7 +111,8 @@ export async function GET(request: NextRequest) {
       volume24h: volume.toLocaleString('en-US', { style: 'currency', currency: 'USD' }),
       holders: {
         count: holdersCount,
-        name: `${fungibleToken.symbol.toLowerCase()}ans`
+        name: `${fungibleToken.symbol.toLowerCase()}ans`,
+        top: topHolders
       },
       decimals: fungibleToken.decimals,
     };
