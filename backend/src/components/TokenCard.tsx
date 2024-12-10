@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { TokenData } from "~/types/token";
-import Profile from "./Profile";
 
 type TokenCardProps = TokenData;
 
