@@ -1,5 +1,5 @@
 import FontSetter from '~/components/FontSetter';
-import FontwarsHoldings from '~/components/FontwarsHoldings';
+// import FontwarsHoldings from '~/components/FontwarsHoldings';
 import Header from '~/components/Header';
 import Swap from '~/components/Swap';
 import TokenCard from '~/components/TokenCard'

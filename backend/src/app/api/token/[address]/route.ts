@@ -24,9 +24,9 @@ function getPriceComponents(price: number) {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { address: string } }
+  context: { params: { address: string } }
 ) {
-  const address = await params.address;
+  const address = context.params.address;
 
   try {
     const query = `
