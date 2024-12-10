@@ -42,6 +42,8 @@ async function getBalances() {
   }>;
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const [comicData, helveticaData] = await Promise.all([
     getTokenData(COMIC),
