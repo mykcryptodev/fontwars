@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 // Helper to extract decimal places and fraction
 function getPriceComponents(price: number) {
   const priceStr = price.toString();
@@ -22,11 +21,16 @@ function getPriceComponents(price: number) {
   };
 }
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { address: string } }
-) {
-  const address = context.params.address;
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const address = searchParams.get('address');
+
+  if (!address) {
+    return NextResponse.json(
+      { error: 'Address parameter is required' },
+      { status: 400 }
+    );
+  }
 
   try {
     const query = `

@@ -9,7 +9,8 @@ const HELVETICA = "0x03e1ffbe7dd1e1ba6653ba6568ad6db7c91ca2de"
 const COMIC = "0x00ef6220b7e28e890a5a265d82589e072564cc57"
 
 async function getTokenData(address: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/token/${address}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/token?address=${address}`, {
+    method: 'GET',
     next: { revalidate: 60 } // Revalidate every 60 seconds
   });
   
