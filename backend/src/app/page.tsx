@@ -29,15 +29,17 @@ export default async function Home() {
     <main className="min-h-screen p-8">
       <Header />
 
-      <div className="flex gap-6">
-        <TokenCard {...comicData} />
-        <TokenCard {...helveticaData} />
-      </div>
-      <div>
-        <Swap 
-          from={comicData}
-          to={helveticaData}
-        />
+      <div className="flex flex-col xl:flex-row gap-6 items-start">
+        <div className="flex flex-col xl:flex-row gap-6 w-full justify-center items-center">
+          <TokenCard {...comicData} />
+          <TokenCard {...helveticaData} />
+        </div>
+        <div className="w-full flex justify-center items-center">
+          <Swap 
+            from={comicData}
+            to={helveticaData}
+          />
+        </div>
       </div>
     </main>
   )
