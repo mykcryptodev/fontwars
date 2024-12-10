@@ -26,6 +26,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { address: string } }
 ) {
+  const address = await params.address;
+
   try {
     const query = `
       query getTokenData($address: Address!) {
@@ -55,7 +57,7 @@ export async function GET(
       body: JSON.stringify({
         query,
         variables: {
-          address: params.address,
+          address,
         },
       }),
     });
@@ -77,7 +79,7 @@ export async function GET(
     const marketCap = fungibleToken.onchainMarketData?.marketCap || 0;
 
     const tokenData = {
-      contractAddress: params.address,
+      contractAddress: address,
       symbol: fungibleToken.symbol,
       name: fungibleToken.name,
       imageUrl: fungibleToken.imageUrl,

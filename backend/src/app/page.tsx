@@ -29,6 +29,15 @@ export default async function Home() {
   const tokenWithBiggerMarketCap = Number(comicData.marketCap) > Number(helveticaData.marketCap) ? comicData : helveticaData;
   const tokenWithSmallerMarketCap = Number(comicData.marketCap) < Number(helveticaData.marketCap) ? comicData : helveticaData;
 
+  // if helvetica has the bigger market cap, set the body font family to helvetica
+  if (Number(helveticaData.marketCap) > Number(comicData.marketCap)) {
+    document.body.style.fontFamily = "Helvetica, sans-serif";
+  }
+  // if comic has the bigger market cap, set the body font family to comic
+  else if (Number(comicData.marketCap) > Number(helveticaData.marketCap)) {
+    document.body.style.fontFamily = "Comic Sans MS, Comic Sans, cursive";
+  }
+
   return (
     <main className="min-h-screen p-8">
       <Header />
