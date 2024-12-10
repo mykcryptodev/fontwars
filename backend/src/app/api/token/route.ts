@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
             marketCap
             totalLiquidity
           }
-          holders(first: 10, orderBy: VALUE_DESC) {
+          holders(first: 10) {
             totalCount
             edges {
               node {
@@ -80,6 +80,7 @@ export async function GET(request: NextRequest) {
     });
 
     const json = await response.json();
+    console.log('Token API response:', json);
     
     if (!json.data?.fungibleToken) {
       return NextResponse.json(
