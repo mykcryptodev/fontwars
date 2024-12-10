@@ -11,14 +11,15 @@ const HELVETICA = "0x03e1ffbe7dd1e1ba6653ba6568ad6db7c91ca2de"
 const COMIC = "0x00ef6220b7e28e890a5a265d82589e072564cc57"
 
 async function getTokenData(address: string) {
-  // Use relative URL in production, absolute URL in development
-  const baseUrl = process.env.NODE_ENV === 'production' 
-    ? '' // Use relative path in production
-    : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    
-  const response = await fetch(`${baseUrl}/api/token?address=${address}`, {
+  // Always use a complete URL
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://fontwars.lol';
+  
+  const url = new URL(`/api/token`, baseUrl);
+  url.searchParams.append('address', address);
+  
+  const response = await fetch(url, {
     method: 'GET',
-    next: { revalidate: 60 } // Revalidate every 60 seconds
+    next: { revalidate: 60 }
   });
   
   if (!response.ok) {
@@ -30,11 +31,10 @@ async function getTokenData(address: string) {
 }
 
 async function getBalances() {
-  const baseUrl = process.env.NODE_ENV === 'production' 
-    ? '' 
-    : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://fontwars.lol';
+  const url = new URL('/api/balances', baseUrl);
 
-  const response = await fetch(`${baseUrl}/api/balances`, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
