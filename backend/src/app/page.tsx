@@ -1,6 +1,7 @@
 import Header from '~/components/Header';
 import Swap from '~/components/Swap';
 import TokenCard from '~/components/TokenCard'
+import { TokenData } from '~/types/token';
 
 const HELVETICA = "0x03e1ffbe7dd1e1ba6653ba6568ad6db7c91ca2de"
 const COMIC = "0x00ef6220b7e28e890a5a265d82589e072564cc57"
@@ -14,7 +15,7 @@ async function getTokenData(address: string) {
     throw new Error(`Failed to fetch token data for ${address}`);
   }
   
-  return response.json();
+  return response.json() as Promise<TokenData>;
 }
 
 export default async function Home() {
@@ -24,6 +25,9 @@ export default async function Home() {
   ]);
 
   helveticaData.imageUrl = "https://fontcoins.com/helvetica.webp"
+
+  const tokenWithBiggerMarketCap = Number(comicData.marketCap) > Number(helveticaData.marketCap) ? comicData : helveticaData;
+  const tokenWithSmallerMarketCap = Number(comicData.marketCap) < Number(helveticaData.marketCap) ? comicData : helveticaData;
 
   return (
     <main className="min-h-screen p-8">
@@ -36,8 +40,8 @@ export default async function Home() {
         </div>
         <div className="w-full flex justify-center items-center">
           <Swap 
-            from={comicData}
-            to={helveticaData}
+            from={tokenWithBiggerMarketCap}
+            to={tokenWithSmallerMarketCap}
           />
         </div>
       </div>

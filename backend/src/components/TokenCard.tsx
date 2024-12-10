@@ -1,21 +1,7 @@
 import Image from "next/image";
+import { TokenData } from "~/types/token";
 
-interface TokenCardProps {
-  symbol: string;
-  name: string;
-  price: {
-    value: number;
-    decimals: number;
-    fraction: number;
-  };
-  marketCap: string;
-  volume24h: string;
-  holders: {
-    count: number;
-    name: string;
-  };
-  imageUrl: string;
-}
+type TokenCardProps = TokenData;
 
 export default function TokenCard({
   symbol,
