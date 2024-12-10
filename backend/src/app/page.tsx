@@ -24,7 +24,7 @@ async function getTokenData(address: string) {
   
   if (!response.ok) {
     console.error(`Failed to fetch token data: Status ${response.status}`);
-    throw new Error(`Failed to fetch token data for ${address}`);
+    throw new Error(`Failed to fetch token data for ${address}, ${url.toString()}`);
   }
   
   return response.json() as Promise<TokenData>;
