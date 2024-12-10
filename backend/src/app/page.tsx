@@ -1,3 +1,5 @@
+import FontSetter from '~/components/FontSetter';
+import FontwarsHoldings from '~/components/FontwarsHoldings';
 import Header from '~/components/Header';
 import Swap from '~/components/Swap';
 import TokenCard from '~/components/TokenCard'
@@ -51,23 +53,22 @@ export default async function Home() {
   helveticaData.imageUrl = "https://fontcoins.com/helvetica.webp"
 
   // Calculate percentages
-  const totalSupply = fontWarsBalances.values.comicsans + fontWarsBalances.values.helvetica;
-  const comicPercentage = (fontWarsBalances.values.comicsans / totalSupply) * 100;
+  // const totalSupply = fontWarsBalances.values.comicsans + fontWarsBalances.values.helvetica;
+  // const comicPercentage = (fontWarsBalances.values.comicsans / totalSupply) * 100;
+
+  // whichever token is winning will set the font of the website
+  // const isComicWinning = comicPercentage > 50;
+
+  // convert the marketcap to a number and whoever has the most marketcap will set the font of the website
+  const isComicWinning = comicData.marketCap > helveticaData.marketCap;
 
   return (
     <main className="min-h-screen p-8">
       <Header />
+      <FontSetter isComicWinning={isComicWinning} />
 
       <div className="flex flex-col gap-6 items-start">
-        <div className="flex flex-col gap-2 w-full justify-center items-center">
-          <h1 className="text-2xl font-bold">FontWars.base.eth holdings</h1>
-          <div className="w-56 h-4 bg-black rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-warning" 
-              style={{ width: `${comicPercentage}%` }}
-            ></div>
-          </div>
-        </div>
+        {/* <FontwarsHoldings comicPercentage={comicPercentage} /> */}
         <div className="flex flex-col xl:flex-row gap-6 w-full justify-center items-center">
           <TokenCard {...comicData} />
           <TokenCard {...helveticaData} />

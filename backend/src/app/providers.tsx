@@ -11,7 +11,7 @@ export function Providers(props: { children: ReactNode }) {
       chain={base}
       config={{
         appearance: {
-          theme: "cyberpunk"
+          theme: "custom"
         }
       }}
     >
