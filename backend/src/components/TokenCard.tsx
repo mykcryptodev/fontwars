@@ -30,11 +30,7 @@ export default function TokenCard({
     <div className="w-[400px] p-6 border-2 border-black rounded-[20px]">
       {/* Token Header */}
       <div className="flex items-start gap-4 mb-6">
-        {name === "Helvetica" ? (
-          <Image src="https://fontcoins.com/helvetica.webp" alt={name} width={48} height={48} className="rounded-lg" />
-        ) : (
-          imageUrl && <Image src={imageUrl} alt={name} width={48} height={48} className="mb-6" />
-        )}
+        <Image src={imageUrl} alt={name} width={48} height={48} className="mb-6" />
         <div>
           <h2 className="text-xl">${symbol}</h2>
           <p className="text-gray-500">{name}</p>

@@ -1,3 +1,5 @@
+import Header from '~/components/Header';
+import Swap from '~/components/Swap';
 import TokenCard from '~/components/TokenCard'
 
 const HELVETICA = "0x03e1ffbe7dd1e1ba6653ba6568ad6db7c91ca2de"
@@ -21,19 +23,21 @@ export default async function Home() {
     getTokenData(HELVETICA)
   ]);
 
+  helveticaData.imageUrl = "https://fontcoins.com/helvetica.webp"
+
   return (
     <main className="min-h-screen p-8">
-      {/* Header */}
-      <header className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl font-bold">fontwars.lol</h1>
-        <button className="px-4 py-2 border-2 border-black rounded-full">
-          Connect Wallet
-        </button>
-      </header>
+      <Header />
 
       <div className="flex gap-6">
         <TokenCard {...comicData} />
         <TokenCard {...helveticaData} />
+      </div>
+      <div>
+        <Swap 
+          from={comicData}
+          to={helveticaData}
+        />
       </div>
     </main>
   )

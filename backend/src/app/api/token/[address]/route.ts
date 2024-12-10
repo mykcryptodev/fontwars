@@ -24,11 +24,8 @@ function getPriceComponents(price: number) {
 
 export async function GET(
   request: NextRequest,
-  context: { params: { address: string } }
+  { params }: { params: { address: string } }
 ) {
-  // Await the params
-  const address = await context.params.address;
-
   try {
     const query = `
       query getTokenData($address: Address!) {
@@ -58,7 +55,7 @@ export async function GET(
       body: JSON.stringify({
         query,
         variables: {
-          address: address, // Use the awaited address
+          address: params.address,
         },
       }),
     });
@@ -80,7 +77,7 @@ export async function GET(
     const marketCap = fungibleToken.onchainMarketData?.marketCap || 0;
 
     const tokenData = {
-      contractAddress: address, // Use the awaited address
+      contractAddress: params.address,
       symbol: fungibleToken.symbol,
       name: fungibleToken.name,
       imageUrl: fungibleToken.imageUrl,
