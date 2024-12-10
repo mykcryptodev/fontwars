@@ -21,13 +21,11 @@ export default async function Home() {
     getTokenData(HELVETICA)
   ]);
 
-  console.log(helveticaData, comicData)
-
   return (
     <main className="min-h-screen p-8">
       {/* Header */}
       <header className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl font-bold">fontcoins</h1>
+        <h1 className="text-4xl font-bold">fontwars.lol</h1>
         <button className="px-4 py-2 border-2 border-black rounded-full">
           Connect Wallet
         </button>
